@@ -43,4 +43,23 @@ class GICCalendarTest {
     void shouldReturnPublicHolidayGivenDateIsAHolidayAndWeekend() {
         assertEquals(calendar.checkDate(LocalDate.of(2023,07,15), "SG"), GICCalendar.DateClassifier.PUBLICHOLIDAY);
     }
+
+    @Test
+    void shouldReturnMondayGivenFriday()
+    {
+        assertEquals(calendar.getNextBusinessDay(LocalDate.of(2023,07,07), "SG"),LocalDate.of(2023,07,10));
+    }
+
+    @Test
+    void shouldReturnMondayForThursdayIfNextDayIsAPublicHoliday()
+    {
+        assertEquals(calendar.getNextBusinessDay(LocalDate.of(2023,06,01), "SG"),LocalDate.of(2023,06,05));
+    }
+
+    @Test
+    void shouldReturnThursdayIfNextDayIsAPublicHoliday()
+    {
+        assertEquals(calendar.getNextBusinessDay(LocalDate.of(2023,8,8), "SG"),LocalDate.of(2023,8,10));
+    }
+
 }
