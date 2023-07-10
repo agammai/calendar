@@ -21,17 +21,26 @@ class GICCalendarTest {
     }
 
     @Test
-    void shouldReturnWeekEndIfDateIsSaturaday() {
-        assertEquals(calendar.checkDate(LocalDate.of(2023,07,8)), GICCalendar.DateClassifier.WEEKEND);
+    void shouldReturnWeekEndIfDateIsSaturadayAndNotPublicHoliday() {
+        assertEquals(calendar.checkDate(LocalDate.of(2023,07,8), "SG"), GICCalendar.DateClassifier.WEEKEND);
     }
 
     @Test
-    void shouldReturnWeekEndIfDateIsSunday() {
-        assertEquals(calendar.checkDate(LocalDate.of(2023,07,9)), GICCalendar.DateClassifier.WEEKEND);
+    void shouldReturnWeekEndIfDateIsSundayAndNotPublicHoliday() {
+        assertEquals(calendar.checkDate(LocalDate.of(2023,07,9), "SG"), GICCalendar.DateClassifier.WEEKEND);
     }
 
     @Test
-    void shouldReturnWorkingDayIfDateIsNotWeekEnd() {
-        assertEquals(calendar.checkDate(LocalDate.of(2023,07,10)), GICCalendar.DateClassifier.WORKINGDAY);
+    void shouldReturnWorkingDayIfDateIsNotWeekEndAndPublicHoliday() {
+        assertEquals(calendar.checkDate(LocalDate.of(2023,07,10), "SG"), GICCalendar.DateClassifier.WORKINGDAY);
+    }
+    @Test
+    void shouldReturnPublicHolidayGivenDateIsAHoliday() {
+        assertEquals(calendar.checkDate(LocalDate.of(2023,01,02), "SG"), GICCalendar.DateClassifier.PUBLICHOLIDAY);
+    }
+
+    @Test
+    void shouldReturnPublicHolidayGivenDateIsAHolidayAndWeekend() {
+        assertEquals(calendar.checkDate(LocalDate.of(2023,07,15), "SG"), GICCalendar.DateClassifier.PUBLICHOLIDAY);
     }
 }

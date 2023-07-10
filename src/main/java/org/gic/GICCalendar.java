@@ -3,6 +3,9 @@ package org.gic;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 
 public class GICCalendar {
@@ -40,13 +43,22 @@ public class GICCalendar {
         }
     }
 
-    public DateClassifier checkDate(LocalDate localDate)
+    public DateClassifier checkDate(LocalDate localDate, String countryName)
     {
         DateClassifier dateClassifier = DateClassifier.WORKINGDAY;
         if(DatePredicate.WEEKEND.test(localDate))
         {
             dateClassifier =  DateClassifier.WEEKEND;
         }
+        Optional<TreeSet<Holiday>> optionalHolidays = holidayCalendar.getHolidays(countryName);
+        if(optionalHolidays.isPresent() && containsDate(optionalHolidays.get(), localDate))
+        {
+            ;dateClassifier =  DateClassifier.PUBLICHOLIDAY;
+        }
         return dateClassifier;
+    }
+
+    private boolean containsDate(final TreeSet<Holiday> holidays, final LocalDate localDate){
+        return holidays.stream().anyMatch(o -> localDate.equals(o.getLocalDate()));
     }
 }

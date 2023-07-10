@@ -41,7 +41,7 @@ class HolidayCalendarTest {
             Optional<TreeSet<Holiday>> optionalHolidays = holidayCalendar.getHolidays("SG");
             TreeSet<Holiday> holidays = optionalHolidays.get();
             assertFalse(holidays.isEmpty());
-            assertEquals(holidays.size(), 2);
+            assertEquals(holidays.size(), 3);
         }
 
         @Test
