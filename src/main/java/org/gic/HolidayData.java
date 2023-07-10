@@ -12,10 +12,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,13 +22,13 @@ public class HolidayCalendar {
     private static final String EXCLUDEALLFILEEXTENSIONS_PATTERN = "(?<!^)[.].*";
     private static final String EMPTYSTRING = "";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
-    private static Map<String, TreeSet<Holiday>> holidayCountryMap = new HashMap<>();
+    private Map<String, TreeSet<Holiday>> holidayCountryMap = new HashMap<>();
 
     public HolidayCalendar(final String resourceName) throws HolidayParserException {
         loadHolidays(resourceName);
     }
 
-    private static void accept(Path file){
+    private void accept(Path file){
         try {
             TreeSet<Holiday> holidays = Files.readAllLines(file.toAbsolutePath(), StandardCharsets.UTF_8)
                     .stream()
@@ -66,7 +63,7 @@ public class HolidayCalendar {
         URL resource = classLoader.getResource(resourceName);
         if(resource != null) {
             try (Stream<Path> paths = Files.walk(Paths.get(resource.toURI()))) {
-                paths.filter(Files::isRegularFile).forEach(HolidayCalendar::accept);
+                paths.filter(Files::isRegularFile).forEach(file -> accept(file));
             } catch (URISyntaxException | IOException e) {
                 throw new HolidayParserException(e);
             }
@@ -75,6 +72,14 @@ public class HolidayCalendar {
 
     public Optional<TreeSet<Holiday>> getHolidays(final String countryName) {
         return Optional.ofNullable(holidayCountryMap != null ? holidayCountryMap.get(countryName) : null);
+    }
+
+    public Optional<Set<String>> getHolidayCountries()
+    {
+        Set<String> countrySet = holidayCountryMap.keySet();
+        System.out.printf("county" + countrySet);
+        if (countrySet.isEmpty()) return Optional.empty();
+        else return Optional.of(countrySet);
     }
 
 }

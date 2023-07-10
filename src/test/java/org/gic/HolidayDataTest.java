@@ -58,7 +58,7 @@ class HolidayCalendarTest {
     {
         @Test
         void shouldReturnEmptyWhenResourceNotFound() throws HolidayParserException {
-            assertTrue(new HolidayCalendar("EmptyTestData").getHolidays("HK").isEmpty());
+            assertFalse(new HolidayCalendar("EmptyTestData").getHolidayCountries().isPresent());
         }
 
         @Test
