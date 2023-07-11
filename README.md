@@ -12,7 +12,7 @@ This calculator allows you to select a country
 2. Application works only for the predefined holiday list being provided for country
 3. Application restart is required to populate the new holiday list being loaded in resources folder
 4. Calendar will work for any LocalDate (i.e.., Any year)
-5. What shpuld happen when holiday list for the same country is being provided across multiple text files?
+5. Only one text files per country
 
 ## How to run the application 
 

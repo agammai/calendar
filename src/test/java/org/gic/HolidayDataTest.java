@@ -45,6 +45,14 @@ class HolidayDataTest {
         }
 
         @Test
+        void shouldAddHolidaysIfCountryAlreadyExists() {
+            Optional<TreeSet<Holiday>> optionalHolidays = holidayData.getHolidays("INDIA");
+            TreeSet<Holiday> holidays = optionalHolidays.get();
+            assertFalse(holidays.isEmpty());
+            assertEquals(holidays.size(), 5);
+        }
+
+        @Test
         void shouldReturnOnlyValidHolidaysWhenInvalidDatesArePresent() {
             Optional<TreeSet<Holiday>> optionalHolidays = holidayData.getHolidays("SG_Exclude_InvalidDates");
             TreeSet<Holiday> holidays = optionalHolidays.get();
