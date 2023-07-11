@@ -17,14 +17,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class HolidayCalendar {
+public class HolidayData {
 
     private static final String EXCLUDEALLFILEEXTENSIONS_PATTERN = "(?<!^)[.].*";
     private static final String EMPTYSTRING = "";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
     private Map<String, TreeSet<Holiday>> holidayCountryMap = new HashMap<>();
 
-    public HolidayCalendar(final String resourceName) throws HolidayParserException {
+    public HolidayData(final String resourceName) throws HolidayParserException {
         loadHolidays(resourceName);
     }
 

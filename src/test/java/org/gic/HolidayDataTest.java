@@ -16,29 +16,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 
-class HolidayCalendarTest {
+class HolidayDataTest {
     @Nested
     class ResourceExistTest {
 
-        HolidayCalendar holidayCalendar;
+        HolidayData holidayData;
         @BeforeEach
         void setup() throws HolidayParserException {
-            holidayCalendar = new HolidayCalendar("holidaystestdata");
+            holidayData = new HolidayData("holidaystestdata");
         }
 
         @Test
         void shouldReturnEmptyWhenHolidayListNotFoundForCountry() {
-            assertTrue(holidayCalendar.getHolidays("HK").isEmpty());
+            assertTrue(holidayData.getHolidays("HK").isEmpty());
         }
 
         @Test
         void shouldReturnEmptyWhenHolidaysAreEmptyForCountry() {
-            assertTrue(holidayCalendar.getHolidays("EmptySG").isEmpty());
+            assertTrue(holidayData.getHolidays("EmptySG").isEmpty());
         }
 
         @Test
         void shouldReturnHolidaysWhenHolidaysAreFound() {
-            Optional<TreeSet<Holiday>> optionalHolidays = holidayCalendar.getHolidays("SG");
+            Optional<TreeSet<Holiday>> optionalHolidays = holidayData.getHolidays("SG");
             TreeSet<Holiday> holidays = optionalHolidays.get();
             assertFalse(holidays.isEmpty());
             assertEquals(holidays.size(), 5);
@@ -46,7 +46,7 @@ class HolidayCalendarTest {
 
         @Test
         void shouldReturnOnlyValidHolidaysWhenInvalidDatesArePresent() {
-            Optional<TreeSet<Holiday>> optionalHolidays = holidayCalendar.getHolidays("SG_Exclude_InvalidDates");
+            Optional<TreeSet<Holiday>> optionalHolidays = holidayData.getHolidays("SG_Exclude_InvalidDates");
             TreeSet<Holiday> holidays = optionalHolidays.get();
             assertFalse(holidays.isEmpty());
             assertEquals(holidays.size(), 1);
@@ -58,7 +58,7 @@ class HolidayCalendarTest {
     {
         @Test
         void shouldReturnEmptyWhenResourceNotFound() throws HolidayParserException {
-            assertFalse(new HolidayCalendar("EmptyTestData").getHolidayCountries().isPresent());
+            assertFalse(new HolidayData("EmptyTestData").getHolidayCountries().isPresent());
         }
 
         @Test
@@ -68,7 +68,7 @@ class HolidayCalendarTest {
 
                 mocked.when(() -> Files.walk(any())).thenThrow(IOException.class);
                 Assertions.assertThrows(HolidayParserException.class, () -> {
-                    new HolidayCalendar("directory_walk_error");
+                    new HolidayData("directory_walk_error");
                 });
             }
         }
