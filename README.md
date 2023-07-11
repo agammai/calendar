@@ -27,3 +27,5 @@ Execute the *Main.class* (Starting point of the application) after running build
 2. Place it under the resources folder src/main/resources/holidays
 3. Restart the application
 
+Refer [HK.txt](src%2Fmain%2Fresources%2Fholidays%2FHK.txt) for sample
+
