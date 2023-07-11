@@ -9,11 +9,11 @@ import java.util.function.Predicate;
 
 public class GICCalendar {
 
-    private HolidayCalendar holidayCalendar;
+    private HolidayData holidayData;
 
-    public GICCalendar(final HolidayCalendar holidayCalendar) {
+    public GICCalendar(final HolidayData holidayData) {
 
-        this.holidayCalendar = holidayCalendar;
+        this.holidayData = holidayData;
     }
 
     enum DateClassifier
@@ -36,7 +36,7 @@ public class GICCalendar {
         {
             dateClassifier =  DateClassifier.WEEKEND;
         }
-        Optional<TreeSet<Holiday>> optionalHolidays = holidayCalendar.getHolidays(countryName);
+        Optional<TreeSet<Holiday>> optionalHolidays = holidayData.getHolidays(countryName);
         if(optionalHolidays.isPresent() && containsDate(optionalHolidays.get(), localDate))
         {
             dateClassifier =  DateClassifier.PUBLICHOLIDAY;
