@@ -22,10 +22,10 @@ public class GICCalendar {
         WORKINGDAY("working day"),
         PUBLICHOLIDAY("public holiday");
 
-        private final String displayName;
+        public final String displayName;
         DateClassifier(final String name)
         {
-            displayName = name;
+            this.displayName = name;
         }
 
     }
@@ -67,5 +67,9 @@ public class GICCalendar {
 
     private boolean containsDate(final TreeSet<Holiday> holidays, final LocalDate localDate){
         return holidays.stream().anyMatch(o -> localDate.equals(o.getLocalDate()));
+    }
+
+    public HolidayData getHolidayData() {
+        return holidayData;
     }
 }

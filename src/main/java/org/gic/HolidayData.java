@@ -21,7 +21,6 @@ public class HolidayData {
 
     private static final String EXCLUDEALLFILEEXTENSIONS_PATTERN = "(?<!^)[.].*";
     private static final String EMPTYSTRING = "";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
     private Map<String, TreeSet<Holiday>> holidayCountryMap = new HashMap<>();
 
     public HolidayData(final String resourceName) throws HolidayParserException {
@@ -33,7 +32,7 @@ public class HolidayData {
             TreeSet<Holiday> holidays = Files.readAllLines(file.toAbsolutePath(), StandardCharsets.UTF_8)
                     .stream()
                     .filter(DatePredicate.VALID_DATE)
-                    .map(date -> new Holiday(LocalDate.parse(date, DATE_TIME_FORMATTER)))
+                    .map(date -> new Holiday(LocalDate.parse(date, GICCalendarConstant.DATE_TIME_FORMATTER)))
                     .collect(Collectors.toCollection(TreeSet::new));
             if (!holidays.isEmpty()) {
                 String fileName = file.getFileName().toString().replaceAll(EXCLUDEALLFILEEXTENSIONS_PATTERN, EMPTYSTRING);
@@ -49,7 +48,7 @@ public class HolidayData {
             @Override
             public boolean test(String date) {
                 try {
-                    LocalDate.parse(date, DATE_TIME_FORMATTER);
+                    LocalDate.parse(date, GICCalendarConstant.DATE_TIME_FORMATTER);
                 } catch (DateTimeParseException e) {
                     return false;
                 }
@@ -77,7 +76,6 @@ public class HolidayData {
     public Optional<Set<String>> getHolidayCountries()
     {
         Set<String> countrySet = holidayCountryMap.keySet();
-        System.out.printf("county" + countrySet);
         if (countrySet.isEmpty()) return Optional.empty();
         else return Optional.of(countrySet);
     }
